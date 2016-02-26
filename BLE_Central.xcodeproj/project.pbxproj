@@ -15,6 +15,10 @@
 		E22C301B1C7E8A2000380331 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E22C30191C7E8A2000380331 /* LaunchScreen.storyboard */; };
 		E22C30261C7E8A2000380331 /* BLE_CentralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E22C30251C7E8A2000380331 /* BLE_CentralTests.m */; };
 		E22C30311C7E8A2000380331 /* BLE_CentralUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E22C30301C7E8A2000380331 /* BLE_CentralUITests.m */; };
+		E22C303F1C7E8AA200380331 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E22C303E1C7E8AA200380331 /* CoreBluetooth.framework */; };
+		E22C30441C7ED54600380331 /* PeripheralVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E22C30431C7ED54600380331 /* PeripheralVC.m */; };
+		E22C30471C7EE72600380331 /* CharacheristicVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E22C30461C7EE72600380331 /* CharacheristicVC.m */; };
+		E22C304A1C7EF70D00380331 /* DescriptionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E22C30491C7EF70D00380331 /* DescriptionVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +55,13 @@
 		E22C302C1C7E8A2000380331 /* BLE_CentralUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BLE_CentralUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E22C30301C7E8A2000380331 /* BLE_CentralUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLE_CentralUITests.m; sourceTree = "<group>"; };
 		E22C30321C7E8A2000380331 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E22C303E1C7E8AA200380331 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		E22C30421C7ED54600380331 /* PeripheralVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralVC.h; sourceTree = "<group>"; };
+		E22C30431C7ED54600380331 /* PeripheralVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeripheralVC.m; sourceTree = "<group>"; };
+		E22C30451C7EE72600380331 /* CharacheristicVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacheristicVC.h; sourceTree = "<group>"; };
+		E22C30461C7EE72600380331 /* CharacheristicVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacheristicVC.m; sourceTree = "<group>"; };
+		E22C30481C7EF70D00380331 /* DescriptionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DescriptionVC.h; sourceTree = "<group>"; };
+		E22C30491C7EF70D00380331 /* DescriptionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DescriptionVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E22C303F1C7E8AA200380331 /* CoreBluetooth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +93,7 @@
 		E22C2FFF1C7E8A2000380331 = {
 			isa = PBXGroup;
 			children = (
+				E22C303E1C7E8AA200380331 /* CoreBluetooth.framework */,
 				E22C300A1C7E8A2000380331 /* BLE_Central */,
 				E22C30241C7E8A2000380331 /* BLE_CentralTests */,
 				E22C302F1C7E8A2000380331 /* BLE_CentralUITests */,
@@ -105,6 +118,12 @@
 				E22C300F1C7E8A2000380331 /* AppDelegate.m */,
 				E22C30111C7E8A2000380331 /* ViewController.h */,
 				E22C30121C7E8A2000380331 /* ViewController.m */,
+				E22C30421C7ED54600380331 /* PeripheralVC.h */,
+				E22C30431C7ED54600380331 /* PeripheralVC.m */,
+				E22C30451C7EE72600380331 /* CharacheristicVC.h */,
+				E22C30461C7EE72600380331 /* CharacheristicVC.m */,
+				E22C30481C7EF70D00380331 /* DescriptionVC.h */,
+				E22C30491C7EF70D00380331 /* DescriptionVC.m */,
 				E22C30141C7E8A2000380331 /* Main.storyboard */,
 				E22C30171C7E8A2000380331 /* Assets.xcassets */,
 				E22C30191C7E8A2000380331 /* LaunchScreen.storyboard */,
@@ -273,8 +292,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E22C30471C7EE72600380331 /* CharacheristicVC.m in Sources */,
+				E22C304A1C7EF70D00380331 /* DescriptionVC.m in Sources */,
 				E22C30131C7E8A2000380331 /* ViewController.m in Sources */,
 				E22C30101C7E8A2000380331 /* AppDelegate.m in Sources */,
+				E22C30441C7ED54600380331 /* PeripheralVC.m in Sources */,
 				E22C300D1C7E8A2000380331 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

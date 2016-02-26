@@ -1,35 +1,32 @@
 //
-//  ViewController.m
+//  PeripheralVC.m
 //  BLE_Central
 //
 //  Created by 张昭 on 16/2/25.
 //  Copyright © 2016年 张昭. All rights reserved.
 //
 
-#import "ViewController.h"
-#import <CoreBluetooth/CoreBluetooth.h>
 #import "PeripheralVC.h"
+#import "CharacheristicVC.h"
 
-
-@interface ViewController () <CBCentralManagerDelegate, CBPeripheralDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface PeripheralVC ()<CBCentralManagerDelegate, CBPeripheralDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) CBCentralManager *centralManager;
-
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) CBPeripheral *per;
 
-@property (nonatomic, strong) NSMutableArray *peripheralArr;
-
+@property (nonatomic, strong) NSMutableArray *services;
 
 @end
 
-@implementation ViewController
+@implementation PeripheralVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Peripherals";
+    self.services = [NSMutableArray array];
     
-    self.peripheralArr = [NSMutableArray array];
+    self.title = @"Services";
     
     // 初始化并设置委托和线程队列，默认main线程
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], CBCentralManagerOptionShowPowerAlertKey, nil];
@@ -41,6 +38,7 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"reuse"];
+    self.tableView.rowHeight = 200;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -53,16 +51,16 @@
     [super viewDidAppear:animated];
     if (self.centralManager != nil) {
         [self.centralManager scanForPeripheralsWithServices:nil options:nil];
-        [self.peripheralArr removeAllObjects];
+        [self.services removeAllObjects];
         [self.tableView reloadData];
-
+        
     }
 }
+
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
     switch (central.state) {
         case CBCentralManagerStatePoweredOn:
-        
             [self.centralManager scanForPeripheralsWithServices:nil options:nil];
             break;
             
@@ -71,47 +69,66 @@
     }
 }
 
-//扫描到设备会进入方法
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI {
-    
-    NSLog(@"外设：%@", peripheral.name);
-    BOOL has = NO;
-    for (CBPeripheral *ch in self.peripheralArr) {
-        if ([ch.name isEqualToString:peripheral.name]) {
-            has = YES;
-        }
+    if ([peripheral.name isEqualToString:self.peripheral.name]) {
+        NSLog(@"faxian");
+        self.per = peripheral;
+        [self.centralManager connectPeripheral:self.per options:nil];
+        
     }
-    if (!has) {
-        [self.peripheralArr addObject:peripheral];
+}
+
+- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
+    NSLog(@"连接成功：%@", peripheral.name);
+    peripheral.delegate = self;
+    [peripheral discoverServices:nil];
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
+    NSLog(@"找到服务：%@", peripheral.services);
+    [self.services removeAllObjects];
+    for (CBService *ser in peripheral.services) {
+        [self.services addObject:ser];
     }
     
     [self.tableView reloadData];
-
+    
 }
 
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return self.peripheralArr.count;
+    return self.services.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse"];
-    CBPeripheral *per = [self.peripheralArr objectAtIndex:indexPath.row];
-   
-    cell.textLabel.text = per.name;
-
+    CBService *ser = [self.services objectAtIndex:indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@\nUUID=%@\nperipheral=%@", ser, ser.UUID, ser.peripheral];
+    cell.textLabel.font = [UIFont systemFontOfSize:13];
+    cell.textLabel.numberOfLines = 0;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    PeripheralVC *per = [[PeripheralVC alloc] init];
-    per.peripheral = [self.peripheralArr objectAtIndex:indexPath.row];
-    [self.navigationController pushViewController:per animated:YES];
+    CharacheristicVC *ch = [[CharacheristicVC alloc] init];
+    ch.myService = [self.services objectAtIndex:indexPath.row];
+    ch.myPeripheral = self.per;
+    [self.navigationController pushViewController:ch animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
 
 @end
